@@ -1,10 +1,9 @@
 import axios from 'axios';
+import { apiBase } from './consts';
 
 interface IFileUploadResponse {
   filename: string;
 }
-
-const apiBase = 'http://localhost:3000';
 
 const api = {
   uploadFile: (file: File) => {
