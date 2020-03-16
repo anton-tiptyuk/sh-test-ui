@@ -1,0 +1,10 @@
+[pages/upload/index.tsx]
+{
+use some form library
+toaster
+loader
+markup
+}
+
+- there's some <App /> wrapper provider for graphQL to plug
+- there's some partial(?) loading with graphQL

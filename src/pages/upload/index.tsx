@@ -56,10 +56,6 @@ export default class Upload extends React.Component<{}, IUploadState> {
     this.setState(defaultState);
   }
 
-  // 2do: switch it to some form library
-  // toaster
-  // loader
-  // markup
   public render() {
     const { file, submitInProgress } = this.state;
 
