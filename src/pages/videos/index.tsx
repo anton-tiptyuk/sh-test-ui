@@ -1,39 +1,38 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 
 import { CardDeck, Card, Button } from 'react-bootstrap';
 
+import { IVideoState, actions } from '../../store/videos';
+import { StoreState } from '../../store/StoreState';
 import { gqlApi } from '../../common/gql';
 
-const mockVids = [
-  {
-    title: 'sample video',
-    filename: 'any',
-  },
-  {
-    title: 'another video',
-    filename: 'differentFile',
-  },
-];
+declare type IActions = typeof actions;
 
-export default class Videos extends React.Component {
+interface Props extends IActions {
+  videos: IVideoState;
+}
+
+class Videos extends React.Component<Props> {
   componentDidMount() {
-
+    this.loadVideos();
   }
 
-  doStuff = () => {
+  loadVideos = () => {
     gqlApi
       .getVideos()
-      .then(response => {
-        console.log(response);
-      });
+      .then(response => this.props.videosList(response));
   }
 
   public render() {
+    const { videos } = this.props;
+
     return <div>
       <h1>List of videos</h1>
+      <Button onClick={this.loadVideos}>ReLoad</Button>
       <CardDeck>
-        {mockVids.map(({ title, filename }) =>
-          <Card>
+        {videos.map(({ id, title, filename }) =>
+          <Card key={id}>
             <Card.Body>
               <Card.Title>title</Card.Title>
               <Card.Text>{title}</Card.Text>
@@ -44,8 +43,13 @@ export default class Videos extends React.Component {
         )}
       </CardDeck>
 
-      <Button onClick={this.doStuff}>Do stuff</Button>
     </div>;
   }
-
 }
+
+const mapStateToProps = (state: StoreState, props: Props) => ({
+  ...props,
+  videos: state.videos,
+});
+
+export default connect(mapStateToProps, actions)(Videos);

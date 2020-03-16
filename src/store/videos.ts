@@ -11,7 +11,7 @@ interface IVideo {
   creationDate?: Date;
 }
 
-declare type IVideoState = IVideo[];
+export declare type IVideoState = IVideo[];
 const initialState: IVideoState = [];
 
 
@@ -24,5 +24,12 @@ const reducer = (state = initialState, action: IAction) => {
   const handler = actionHandlers[action.type];
   return handler ? handler(state, action) : state;
 }
+
+export const videosList = (payload: Object[]) =>
+  ({ type: VIDEOS_LIST, payload });
+
+export const actions = {
+  videosList,
+};
 
 export default reducer;
