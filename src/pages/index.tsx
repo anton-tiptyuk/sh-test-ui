@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Redirect } from 'react-router';
 

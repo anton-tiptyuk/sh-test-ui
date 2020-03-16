@@ -11,7 +11,8 @@ import './index.css';
 
 interface IUploadState {
   file: File | null;
-  title?: string;
+  title: string;
+  filename: string;
   description?: string;
   submitInProgress: boolean;
 }
@@ -19,6 +20,7 @@ interface IUploadState {
 const defaultState = {
   file: null,
   title: '',
+  filename: '',
   description: '',
   submitInProgress: false,
 };
@@ -34,16 +36,29 @@ class Upload extends React.Component<IActions, IUploadState> {
 
   onFileSelected = (selectorFiles: FileList) => {
     const file = selectorFiles.item(0);
-    this.setState({ file });
+    let stateDiff: any = defaultState;
+
+    if (file) {
+      const { name } = file as any;
+      const { filename, title } = this.state;
+
+      stateDiff = {
+        file,
+        filename: filename || name,
+        title: title || name,
+      };
+    }
+
+    this.setState(stateDiff);
   }
 
   submitFile = async () => {
-    const { file, title, description } = this.state;
+    const { file, title, filename, description } = this.state;
 
     try {
-      const filename = await api.uploadFile(file as File);
-      console.log(`file ${filename} uploaded`);
-      const video = await gqlApi.addVideo(title as string, filename, description);
+      const uploadPath = await api.uploadFile(file as File);
+      console.log(`file ${uploadPath} uploaded`);
+      const video = await gqlApi.addVideo(title, filename, uploadPath, description);
       console.log(video);
       this.props.videosAdd(video);
     } catch (ex) {
@@ -74,6 +89,7 @@ class Upload extends React.Component<IActions, IUploadState> {
 
       <Form.Group controlId='file'>
         <Form.Control type='text' placeholder='title' value={this.state.title} onChange={(e: any) => { this.setState({ title: e.target.value }) }} />
+        <Form.Control type='text' placeholder='filename' value={this.state.filename} onChange={(e: any) => { this.setState({ filename: e.target.value }) }} />
         <Form.Control type='text' placeholder='description' value={this.state.description} onChange={(e: any) => { this.setState({ description: e.target.value }) }} />
         <Form.Control type='file' accept='video/*' ref={this.fileInputRef} onChange={(e: any) => this.onFileSelected(e.target.files)} />
         <Button variant='primary' type='submit' disabled={!file || submitInProgress}>Submit</Button>

@@ -8,7 +8,7 @@ interface IVideo {
   id: string;
   title: string;
   filename: string;
-  filenameOrg?: string;
+  path?: string;
   description?: string;
   creationDate?: Date;
 }
