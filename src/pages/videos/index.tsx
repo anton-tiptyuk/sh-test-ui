@@ -1,9 +1,8 @@
 import * as React from 'react';
 
 import { CardDeck, Card, Button } from 'react-bootstrap';
-import gql from 'graphql-tag';
 
-import { gqlClient } from '../../common/gql';
+import { gqlApi } from '../../common/gql';
 
 const mockVids = [
   {
@@ -13,27 +12,17 @@ const mockVids = [
   {
     title: 'another video',
     filename: 'differentFile',
-  }
+  },
 ];
 
 export default class Videos extends React.Component {
+  componentDidMount() {
+
+  }
 
   doStuff = () => {
-    gqlClient
-      .query({
-        query: gql`
-        {
-          videos {
-            id
-            title
-            filename
-            filenameOrg
-            description
-            creationDate
-          }
-        }
-        `
-      })
+    gqlApi
+      .getVideos()
       .then(response => {
         console.log(response);
       });
