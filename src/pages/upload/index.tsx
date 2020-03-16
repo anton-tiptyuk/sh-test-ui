@@ -1,7 +1,11 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
+
 import { Form, Button } from 'react-bootstrap';
 
 import api from '../../common/api';
+import { gqlApi } from '../../common/gql';
+import { actions, IActions } from '../../store/videos';
 
 interface IUploadState {
   file: File | null;
@@ -17,11 +21,10 @@ const defaultState = {
   submitInProgress: false,
 };
 
-export default class Upload extends React.Component<{}, IUploadState> {
+class Upload extends React.Component<IActions, IUploadState> {
   private readonly fileInputRef: React.RefObject<any>;
 
-  constructor(props: Object) {
-
+  constructor(props: IActions) {
     super(props);
     this.fileInputRef = React.createRef();
     this.state = defaultState;
@@ -32,11 +35,15 @@ export default class Upload extends React.Component<{}, IUploadState> {
     this.setState({ file });
   }
 
-  submitFile = async (file: File) => {
+  submitFile = async () => {
+    const { file, title, description } = this.state;
+
     try {
-      const filename = await api.uploadFile(file);
-      console.log('file uploaded');
-      console.log(filename);
+      const filename = await api.uploadFile(file as File);
+      console.log(`file ${filename} uploaded`);
+      const video = await gqlApi.addVideo(title as string, filename, description);
+      console.log(video);
+      this.props.videosAdd(video);
     } catch (ex) {
       console.log('submit file failed');
       console.log(ex);
@@ -45,9 +52,10 @@ export default class Upload extends React.Component<{}, IUploadState> {
 
   onFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     this.setState(
       { submitInProgress: true },
-      () => this.submitFile(this.state.file as File).finally(this.resetForm)
+      () => this.submitFile().finally(this.resetForm)
     );
   }
 
@@ -74,3 +82,5 @@ export default class Upload extends React.Component<{}, IUploadState> {
   }
 
 }
+
+export default connect(undefined, actions)(Upload);

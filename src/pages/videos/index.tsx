@@ -3,11 +3,9 @@ import { connect } from 'react-redux';
 
 import { CardDeck, Card, Button } from 'react-bootstrap';
 
-import { IVideoState, actions } from '../../store/videos';
+import { IVideoState, actions, IActions } from '../../store/videos';
 import { StoreState } from '../../store/StoreState';
 import { gqlApi } from '../../common/gql';
-
-declare type IActions = typeof actions;
 
 interface Props extends IActions {
   videos: IVideoState;

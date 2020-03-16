@@ -30,8 +30,35 @@ export const gqlApi = {
             creationDate
           }
         }
-        `
+        `,
+        // 2do: extremely lame but time is a factor
+        fetchPolicy: 'no-cache',
       })
       .then(response => response.data.videos)
   },
-}
+
+  addVideo: (title: string, filename: string, description?: string) => {
+    return gqlClient
+      .mutate({
+        mutation: gql`
+          mutation addVideo($title: String!, $filename: String!, $description: String) {
+            addVideo(newVideoData: { title: $title, filename: $filename, description: $description }) {
+              id
+              title
+              filename
+              filenameOrg
+              description
+              creationDate
+            }
+          }
+        `,
+        variables: {
+          title,
+          filename,
+          description,
+        },
+      })
+      .then(response => response.data.addVideo);
+  },
+
+};
