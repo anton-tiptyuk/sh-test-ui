@@ -26,6 +26,7 @@ export const gqlApi = {
             title
             filename
             path
+            thumbnailPath
             description
             creationDate
           }
@@ -37,16 +38,23 @@ export const gqlApi = {
       .then(response => response.data.videos)
   },
 
-  addVideo: (title: string, filename: string, uploadPath: string, description?: string) => {
+  addVideo: (
+    title: string,
+    filename: string,
+    uploadPath: string,
+    thumbnailPath: string,
+    description?: string
+  ) => {
     return gqlClient
       .mutate({
         mutation: gql`
-          mutation addVideo($title: String!, $filename: String!, $uploadPath: String!, $description: String) {
-            addVideo(newVideoData: { title: $title, filename: $filename, uploadPath: $uploadPath, description: $description }) {
+          mutation addVideo($title: String!, $filename: String!, $uploadPath: String!, $thumbnailPath: String!, $description: String) {
+            addVideo(newVideoData: { title: $title, filename: $filename, uploadPath: $uploadPath, thumbnailPath: $thumbnailPath, description: $description }) {
               id
               title
               filename
               path
+              thumbnailPath
               description
               creationDate
             }
@@ -56,6 +64,7 @@ export const gqlApi = {
           title,
           filename,
           uploadPath,
+          thumbnailPath,
           description,
         },
       })

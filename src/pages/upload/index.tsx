@@ -56,9 +56,9 @@ class Upload extends React.Component<IActions, IUploadState> {
     const { file, title, filename, description } = this.state;
 
     try {
-      const uploadPath = await api.uploadFile(file as File);
+      const { filename: uploadPath, thumbnailPath } = await api.uploadFile(file as File);
       console.log(`file ${uploadPath} uploaded`);
-      const video = await gqlApi.addVideo(title, filename, uploadPath, description);
+      const video = await gqlApi.addVideo(title, filename, uploadPath, thumbnailPath, description);
       console.log(video);
       this.props.videosAdd(video);
     } catch (ex) {

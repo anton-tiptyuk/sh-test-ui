@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { CardDeck, Card, Button } from 'react-bootstrap';
 
+import { apiBase } from '../../common/consts';
 import { IVideoState, actions, IActions } from '../../store/videos';
 import { StoreState } from '../../store/StoreState';
 import { gqlApi } from '../../common/gql';
@@ -37,8 +38,9 @@ class Videos extends React.Component<Props> {
       <h1>List of videos <Button onClick={this.loadVideos}>ReLoad</Button></h1>
 
       <CardDeck>
-        {videos.map(({ id, title, filename }) =>
+        {videos.map(({ id, title, filename, thumbnailPath }) =>
           <Card key={id}>
+            <Card.Img variant='top' src={`${apiBase}${thumbnailPath}`} />
             <Card.Body>
               <Card.Title>title</Card.Title>
               <Card.Text>{title}</Card.Text>

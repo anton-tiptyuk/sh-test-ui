@@ -9,6 +9,7 @@ interface IVideo {
   title: string;
   filename: string;
   path?: string;
+  thumbnailPath?: string;
   description?: string;
   creationDate?: Date;
 }

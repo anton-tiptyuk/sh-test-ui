@@ -3,15 +3,20 @@ import { apiBase } from './consts';
 
 interface IFileUploadResponse {
   filename: string;
+  thumbnailPath: string;
 }
 
 const api = {
-  uploadFile: (file: File) => {
+  uploadFile: async (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    return axios
-      .post<IFileUploadResponse>(`${apiBase}/video`, formData, { headers: { 'content-type': 'multipart/form-data' } })
-      .then(({ data: { filename } }) => filename);
+    const { data } = await axios
+      .post<IFileUploadResponse>(
+        `${apiBase}/video`,
+        formData,
+        { headers: { 'content-type': 'multipart/form-data' } }
+      );
+    return data;
   },
 
 };
