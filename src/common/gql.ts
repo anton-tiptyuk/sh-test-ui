@@ -61,4 +61,17 @@ export const gqlApi = {
       .then(response => response.data.addVideo);
   },
 
+  deleteVideo: (id: string) => {
+    return gqlClient
+      .mutate({
+        mutation: gql`
+        mutation removeVideo($id: String!) {
+          removeVideo(id: $id)
+        }
+        `,
+        variables: { id },
+      })
+      .then(() => id);
+  },
+
 };

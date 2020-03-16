@@ -22,6 +22,12 @@ class Videos extends React.Component<Props> {
       .then(response => this.props.videosList(response));
   }
 
+  remove = (id: string) => {
+    gqlApi
+      .deleteVideo(id)
+      .then(() => this.props.videosDelete(id));
+  }
+
   public render() {
     const { videos } = this.props;
 
@@ -36,6 +42,7 @@ class Videos extends React.Component<Props> {
               <Card.Text>{title}</Card.Text>
               <Card.Title>filename</Card.Title>
               <Card.Text>{filename}</Card.Text>
+              <Button onClick={() => this.remove(id)}>Remove</Button>
             </Card.Body>
           </Card>
         )}
