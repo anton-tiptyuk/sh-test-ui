@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { Navbar, Button } from 'react-bootstrap';
+import { Navbar, Nav, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Redirect } from 'react-router';
 
@@ -19,10 +19,10 @@ function App() {
         <header className="App-header">
           <Navbar>
             <LinkContainer to={ROUTE_VIDEOS}>
-              <Button>videos</Button>
+              <Nav.Link>videos</Nav.Link>
             </LinkContainer>
             <LinkContainer to={ROUTE_UPLOAD}>
-              <Button>upload</Button>
+              <Nav.Link>upload</Nav.Link>
             </LinkContainer>
           </Navbar>
         </header>

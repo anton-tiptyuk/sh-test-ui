@@ -7,6 +7,8 @@ import api from '../../common/api';
 import { gqlApi } from '../../common/gql';
 import { actions, IActions } from '../../store/videos';
 
+import './index.css';
+
 interface IUploadState {
   file: File | null;
   title?: string;
@@ -68,13 +70,14 @@ class Upload extends React.Component<IActions, IUploadState> {
     const { file, submitInProgress } = this.state;
 
     return <Form onSubmit={this.onFormSubmit} >
+      <h1>File upload</h1>
 
       <Form.Group controlId='file'>
-        <Form.Label>File upload</Form.Label>
         <Form.Control type='text' placeholder='title' value={this.state.title} onChange={(e: any) => { this.setState({ title: e.target.value }) }} />
         <Form.Control type='text' placeholder='description' value={this.state.description} onChange={(e: any) => { this.setState({ description: e.target.value }) }} />
-        <Form.Control type='file' accept='image/*' ref={this.fileInputRef} onChange={(e: any) => this.onFileSelected(e.target.files)} />
+        <Form.Control type='file' accept='video/*' ref={this.fileInputRef} onChange={(e: any) => this.onFileSelected(e.target.files)} />
         <Button variant='primary' type='submit' disabled={!file || submitInProgress}>Submit</Button>
+        &nbsp;
         <Button onClick={this.resetForm}>Reset</Button>
       </Form.Group>
 

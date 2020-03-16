@@ -7,6 +7,8 @@ import { IVideoState, actions, IActions } from '../../store/videos';
 import { StoreState } from '../../store/StoreState';
 import { gqlApi } from '../../common/gql';
 
+import './index.css';
+
 interface Props extends IActions {
   videos: IVideoState;
 }
@@ -32,8 +34,8 @@ class Videos extends React.Component<Props> {
     const { videos } = this.props;
 
     return <div>
-      <h1>List of videos</h1>
-      <Button onClick={this.loadVideos}>ReLoad</Button>
+      <h1>List of videos <Button onClick={this.loadVideos}>ReLoad</Button></h1>
+
       <CardDeck>
         {videos.map(({ id, title, filename }) =>
           <Card key={id}>
@@ -47,7 +49,6 @@ class Videos extends React.Component<Props> {
           </Card>
         )}
       </CardDeck>
-
     </div>;
   }
 }
