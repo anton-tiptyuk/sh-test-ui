@@ -1,8 +1,13 @@
-.form-group {
+form {
   margin: 10px auto;
   max-width: 660px;
 }
 
 input.form-control {
-  margin: 20px 0;
+  margin: 16px 0;
+}
+
+.App .form-label {
+  float: left;
+  margin-left: 4px;
 }

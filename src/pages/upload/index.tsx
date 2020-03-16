@@ -87,15 +87,28 @@ class Upload extends React.Component<IActions, IUploadState> {
     return <Form onSubmit={this.onFormSubmit} >
       <h1>File upload</h1>
 
-      <Form.Group controlId='file'>
+      <Form.Group controlId='title'>
+        <Form.Label>Title</Form.Label>
         <Form.Control type='text' placeholder='title' value={this.state.title} onChange={(e: any) => { this.setState({ title: e.target.value }) }} />
+      </Form.Group>
+
+      <Form.Group controlId='filename'>
+        <Form.Label>Filename</Form.Label>
         <Form.Control type='text' placeholder='filename' value={this.state.filename} onChange={(e: any) => { this.setState({ filename: e.target.value }) }} />
+      </Form.Group>
+
+      <Form.Group controlId='description'>
+        <Form.Label>Description</Form.Label>
         <Form.Control type='text' placeholder='description' value={this.state.description} onChange={(e: any) => { this.setState({ description: e.target.value }) }} />
+      </Form.Group>
+
+      <Form.Group controlId='file'>
         <Form.Control type='file' accept='video/*' ref={this.fileInputRef} onChange={(e: any) => this.onFileSelected(e.target.files)} />
-        <Button variant='primary' type='submit' disabled={!file || submitInProgress}>Submit</Button>
+      </Form.Group>
+
+      <Button variant='primary' type='submit' disabled={!file || submitInProgress}>Submit</Button>
         &nbsp;
         <Button onClick={this.resetForm}>Reset</Button>
-      </Form.Group>
 
     </Form>
   }
