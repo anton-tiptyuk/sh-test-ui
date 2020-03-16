@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import { appReducer } from './store';
 
@@ -9,7 +10,10 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import App from './pages';
 
-const store = createStore(appReducer);
+const store = createStore(
+  appReducer,
+  composeWithDevTools(),
+);
 
 ReactDOM.render(
   <Provider store={store}>
