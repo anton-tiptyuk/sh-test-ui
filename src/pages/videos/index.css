@@ -6,3 +6,9 @@
 .card {
   max-width: 500px;
 }
+
+.video-js {
+  margin: auto;
+  max-height: 50%;
+  max-width: 100%;
+}

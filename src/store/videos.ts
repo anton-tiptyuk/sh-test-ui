@@ -4,7 +4,7 @@ export const VIDEOS_LIST = 'VIDEOS_LIST';
 export const VIDEOS_ADD = 'VIDEOS_ADD';
 export const VIDEOS_DELETE = 'VIDEOS_DELETE';
 
-interface IVideo {
+export interface IVideo {
   id: string;
   title: string;
   filename: string;
