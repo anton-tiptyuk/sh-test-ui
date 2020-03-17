@@ -3,10 +3,6 @@ import videojs, { VideoJsPlayer } from 'video.js';
 
 import 'video.js/dist/video-js.css';
 
-// function onPlayerReady() {
-//   console.log('onPlayerReady', this);
-// };
-
 export default class VideoPlayer extends React.Component {
   private readonly videoNodeRef: React.RefObject<any> = React.createRef();
   private player?: VideoJsPlayer;
