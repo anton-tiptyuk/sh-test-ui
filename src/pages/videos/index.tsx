@@ -72,7 +72,7 @@ class Videos extends React.Component<Props, State> {
 
       <CardDeck>
         {videos.map(video => {
-          const { id, title, filename, thumbnailPath } = video;
+          const { id, title, filename, thumbnailPath, path } = video;
 
           const play = () => this.setState({ currentVideo: video });
 
@@ -86,10 +86,11 @@ class Videos extends React.Component<Props, State> {
               <Button onClick={() => this.remove(id)}>Remove</Button>
               &nbsp;
               <Button onClick={play}>Show Player</Button>
+              &nbsp;
+              <a href={path2url(path)} download={filename} className='btn btn-primary'>Save</a>
             </Card.Body>
           </Card>;
-        }
-        )}
+        })}
       </CardDeck>
     </div>;
   }
