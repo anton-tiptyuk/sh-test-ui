@@ -14,6 +14,7 @@ interface IUploadState {
   title: string;
   filename: string;
   description?: string;
+  status: string,
   submitInProgress: boolean;
 }
 
@@ -22,6 +23,7 @@ const defaultState = {
   title: '',
   filename: '',
   description: '',
+  status: '',
   submitInProgress: false,
 };
 
@@ -52,8 +54,10 @@ class Upload extends React.Component<IActions, IUploadState> {
     this.setState(stateDiff);
   }
 
-  submitFile = async () => {
+  submitFile = async (): Promise<string> => {
     const { file, title, filename, description } = this.state;
+
+    let status: string = 'File was successfully uploaded';
 
     try {
       const { filename: uploadPath, thumbnailPath } = await api.uploadFile(file as File);
@@ -62,9 +66,11 @@ class Upload extends React.Component<IActions, IUploadState> {
       console.log(video);
       this.props.videosAdd(video);
     } catch (ex) {
-      console.log('submit file failed');
+      status = 'Submit file failed';
+      console.log(status);
       console.log(ex);
     }
+    return status;
   }
 
   onFormSubmit = (e: React.FormEvent) => {
@@ -72,17 +78,17 @@ class Upload extends React.Component<IActions, IUploadState> {
 
     this.setState(
       { submitInProgress: true },
-      () => this.submitFile().finally(this.resetForm)
+      () => this.submitFile().then(status => this.resetForm({ ...defaultState, status }))
     );
   }
 
-  resetForm = () => {
+  resetForm = (resetState: IUploadState = defaultState) => {
     (this.fileInputRef.current as any).value = '';
-    this.setState(defaultState);
+    this.setState(resetState);
   }
 
   public render() {
-    const { file, submitInProgress } = this.state;
+    const { file, submitInProgress, status } = this.state;
 
     return <Form onSubmit={this.onFormSubmit} >
       <h1>File upload</h1>
@@ -108,8 +114,8 @@ class Upload extends React.Component<IActions, IUploadState> {
 
       <Button variant='primary' type='submit' disabled={!file || submitInProgress}>Submit</Button>
         &nbsp;
-        <Button onClick={this.resetForm}>Reset</Button>
-
+        <Button onClick={() => this.resetForm()}>Reset</Button>
+      <p>{status}</p>
     </Form>
   }
 
